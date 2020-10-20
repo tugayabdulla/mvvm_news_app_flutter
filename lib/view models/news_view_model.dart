@@ -15,7 +15,7 @@ class NewsViewModel extends ChangeNotifier {
 
   void getSearchNews(String keyword) async{
     searchNews = await newsService.getSearchNews(keyword);
-
+    print("hunga hunga");
     notifyListeners();
   }
 }

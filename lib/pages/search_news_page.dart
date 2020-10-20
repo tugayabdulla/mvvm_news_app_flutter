@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_mvvm/utils/destinations.dart';
+import 'package:news_app_mvvm/view%20models/news_view_model.dart';
+import 'package:news_app_mvvm/widgets/news_list.dart';
+import 'package:provider/provider.dart';
 
 class SearchNewsPage extends StatefulWidget {
-  final Destination dest;
-  SearchNewsPage(this.dest);
   @override
   _SearchNewsPageState createState() => _SearchNewsPageState();
 }
@@ -11,11 +11,23 @@ class SearchNewsPage extends StatefulWidget {
 class _SearchNewsPageState extends State<SearchNewsPage> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      color: widget.dest.color,
-      child: Center(
-        child: Text("Search News"),
-      )
-      ,);
+    return Column(
+      children: <Widget>[
+        TextField(
+          decoration: InputDecoration(
+            hintText: "Search...",
+          ),
+          onSubmitted: (keyword) {
+            print(keyword);
+            Provider.of<NewsViewModel>(context,listen: false).getSearchNews(keyword);
+          },
+        ),
+        Flexible(
+          child: Consumer<NewsViewModel>(builder: (context, vm, child) {
+            return NewsList(vm.searchNews);
+          }),
+        )
+      ],
+    );
   }
 }

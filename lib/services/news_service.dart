@@ -29,13 +29,18 @@ class NewsService {
     Response response = await get(
         "http://newsapi.org/v2/everything?q=$keyword&apiKey=$API_KEY");
     print(response.statusCode);
+    List<News> newsList = [];
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
+      for (dynamic article in body["articles"]) {
 
-      final Iterable json = body['articles'];
-      return json.map((news) => News.newsFromJson(news));
+        final news = News.newsFromJson(article);
+
+        newsList.add(news);
+      }
     } else {
       throw Exception("Unable to perform request!");
     }
+    return newsList;
   }
 }

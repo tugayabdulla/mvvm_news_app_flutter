@@ -3,7 +3,6 @@ import 'package:news_app_mvvm/pages/breaking_news_page.dart';
 import 'package:news_app_mvvm/pages/saved_news_page.dart';
 import 'package:news_app_mvvm/pages/search_news_page.dart';
 import 'package:news_app_mvvm/utils/destinations.dart';
-import 'package:news_app_mvvm/widgets/destination_view.dart';
 
 class NewsApp extends StatefulWidget {
   @override
@@ -22,17 +21,17 @@ class _NewsAppState extends State<NewsApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Text"),
-      // ),
+      appBar: AppBar(
+        title: Text("Text"),
+      ),
       body: SafeArea(
         top: false,
         child: IndexedStack(
           index: _selectedIndex,
-          children:<Widget>[
+          children: <Widget>[
             BreakingNewsPage(),
             SavedNewsPage(allDestinations[_selectedIndex]),
-            SearchNewsPage(allDestinations[_selectedIndex]),
+            SearchNewsPage(),
           ],
         ),
       ),

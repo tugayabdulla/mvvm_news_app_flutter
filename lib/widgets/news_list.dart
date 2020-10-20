@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_mvvm/models/News.dart';
 
-class NewsList extends StatelessWidget {
+class NewsList extends StatefulWidget {
   NewsList(this.newsList);
 
   final List<News> newsList;
 
   @override
+  _NewsListState createState() => _NewsListState();
+}
+
+class _NewsListState extends State<NewsList> {
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: newsList.length,
+
+        itemCount: widget.newsList.length,
         itemBuilder: (context, index) {
-          return NewsPreview(newsList[index]);
+          return NewsPreview(widget.newsList[index]);
         });
   }
 }
