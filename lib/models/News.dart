@@ -7,14 +7,15 @@ class News {
   String publishedAt;
   String content;
 
-  static movieFromJson(Map<String, dynamic> map) {
+  static newsFromJson(dynamic article) {
     News news = News();
-    news.author = map['author'];
-    news.title = map['title'];
-    news.description = map['description'];
-    news.url = map['url'];
-    news.urlToImage = map['urlToImage'];
-    news.publishedAt = map['publishedAt'];
-    news.content = map['content'];
+    news.author = article['author'];
+    news.title = article['title'];
+    news.description = article['description'];
+    news.url = article['url'];
+    news.urlToImage = article['urlToImage'];
+    news.publishedAt = article['publishedAt'];
+    news.content = article['content'];
+    return news;
   }
 }
