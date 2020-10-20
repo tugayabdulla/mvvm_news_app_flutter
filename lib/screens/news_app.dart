@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_mvvm/view%20models/news_view_model.dart';
-import 'package:news_app_mvvm/widgets/news_list.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app_mvvm/pages/breaking_news_page.dart';
+import 'package:news_app_mvvm/pages/saved_news_page.dart';
+import 'package:news_app_mvvm/pages/search_news_page.dart';
+import 'package:news_app_mvvm/utils/destinations.dart';
+import 'package:news_app_mvvm/widgets/destination_view.dart';
 
 class NewsApp extends StatefulWidget {
   @override
@@ -11,35 +13,45 @@ class NewsApp extends StatefulWidget {
 class _NewsAppState extends State<NewsApp> {
   int _selectedIndex = 0;
 
-
   @override
   void initState() {
-
     super.initState();
-    Provider.of<NewsViewModel>(context,listen: false).getBreakingNews();
-
+    // Provider.of<NewsViewModel>(context, listen: false).getBreakingNews();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Text"),
+      // appBar: AppBar(
+      //   title: Text("Text"),
+      // ),
+      body: SafeArea(
+        top: false,
+        child: IndexedStack(
+          index: _selectedIndex,
+          children:<Widget>[
+            BreakingNewsPage(),
+            SavedNewsPage(allDestinations[_selectedIndex]),
+            SearchNewsPage(allDestinations[_selectedIndex]),
+          ],
+        ),
       ),
-      body: NewsList(),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.save), label: "Saved"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search")
-        ],
+        type: BottomNavigationBarType.shifting,
+        // backgroundColor: allDestinations[_selectedIndex].color,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) {
+        onTap: (int index) {
           setState(() {
             _selectedIndex = index;
           });
         },
+        items: allDestinations.map((Destination destination) {
+          return BottomNavigationBarItem(
+            icon: Icon(destination.icon),
+            backgroundColor: destination.color,
+            label: destination.title,
+          );
+        }).toList(),
       ),
     );
   }

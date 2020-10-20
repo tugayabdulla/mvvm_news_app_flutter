@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_mvvm/models/News.dart';
-import 'package:news_app_mvvm/view%20models/news_view_model.dart';
-import 'package:provider/provider.dart';
 
-class NewsList extends StatefulWidget {
-  @override
-  _NewsListState createState() => _NewsListState();
-}
+class NewsList extends StatelessWidget {
+  NewsList(this.newsList);
 
-class _NewsListState extends State<NewsList> {
+  final List<News> newsList;
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewsViewModel>(builder: (context, vm, child) {
-      return ListView.builder(
-          itemCount: vm.breakingNews.length,
-          itemBuilder: (context, index) {
-            return NewsPreview(vm.breakingNews[index]);
-          });
-    });
+    return ListView.builder(
+        itemCount: newsList.length,
+        itemBuilder: (context, index) {
+          return NewsPreview(newsList[index]);
+        });
   }
 }
 
@@ -31,9 +26,7 @@ class NewsPreview extends StatelessWidget {
     return Card(
       child: Row(
         children: <Widget>[
-
           Expanded(
-
             flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -46,7 +39,6 @@ class NewsPreview extends StatelessWidget {
             ),
           ),
           Expanded(
-
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
