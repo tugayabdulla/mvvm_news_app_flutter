@@ -1,4 +1,7 @@
 class News {
+  static var TABLE_NAME = 'news';
+
+
   String author;
   String title;
   String description;
@@ -7,15 +10,32 @@ class News {
   String publishedAt;
   String content;
 
-  static newsFromJson(dynamic article) {
-    News news = News();
-    news.author = article['author'];
-    news.title = article['title'];
-    news.description = article['description'];
-    news.url = article['url'];
-    news.urlToImage = article['urlToImage'];
-    news.publishedAt = article['publishedAt'];
-    news.content = article['content'];
-    return news;
-  }
+  News(
+      {this.author,
+      this.title,
+      this.description,
+      this.url,
+      this.urlToImage,
+      this.publishedAt,
+      this.content});
+
+  factory News.newsFromJson(dynamic article) => News(
+        author: article['author'],
+        title: article['title'],
+        description: article['description'],
+        url: article['url'],
+        urlToImage: article['urlToImage'],
+        publishedAt: article['publishedAt'],
+        content: article['content'],
+      );
+
+  Map<String, dynamic> toMap() => {
+        'author': this.author,
+        'title': this.title,
+        'description': this.description,
+        'url': this.url,
+        'urlToImage': this.urlToImage,
+        'publishedAt': this.publishedAt,
+        'content': this.content,
+      };
 }

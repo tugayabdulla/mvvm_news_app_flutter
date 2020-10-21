@@ -17,8 +17,9 @@ class _BreakingNewsPageState extends State<BreakingNewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('breaking_news_page buil called');
     return Consumer<NewsViewModel>(builder: (context, vm, child) {
-      return NewsList(vm.breakingNews);
+      return NewsList(newsList: vm.breakingNews);
     });
   }
 }

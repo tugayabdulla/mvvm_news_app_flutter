@@ -19,12 +19,13 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
           ),
           onSubmitted: (keyword) {
             print(keyword);
-            Provider.of<NewsViewModel>(context,listen: false).getSearchNews(keyword);
+            Provider.of<NewsViewModel>(context, listen: false)
+                .getSearchNews(keyword);
           },
         ),
         Flexible(
           child: Consumer<NewsViewModel>(builder: (context, vm, child) {
-            return NewsList(vm.searchNews);
+            return NewsList(newsList: vm.searchNews);
           }),
         )
       ],

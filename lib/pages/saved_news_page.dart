@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_mvvm/utils/destinations.dart';
+import 'package:news_app_mvvm/view%20models/news_db_view_model.dart';
+import 'package:news_app_mvvm/widgets/news_list.dart';
+import 'package:provider/provider.dart';
 
 class SavedNewsPage extends StatefulWidget {
-  SavedNewsPage(this.dest);
-
-  final Destination dest;
-
   @override
   _SavedNewsPageState createState() => _SavedNewsPageState();
 }
 
 class _SavedNewsPageState extends State<SavedNewsPage> {
   @override
+  void initState() {
+    Provider.of<NewsDBViewModel>(context,listen: false).getSavedNews();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: widget.dest.color,
-      child: Center(
-        child: Text("Saved News"),
-      ),
-    );
+    return Consumer<NewsDBViewModel>(builder: (context, vm, child) {
+      print('saved_news_page build called');
+      return NewsList(
+        newsList: vm.newsList,
+        dismissible: true,
+      );
+    });
   }
 }

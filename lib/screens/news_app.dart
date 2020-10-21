@@ -21,16 +21,14 @@ class _NewsAppState extends State<NewsApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Text"),
-      ),
+      appBar: AppBar(),
       body: SafeArea(
         top: false,
         child: IndexedStack(
           index: _selectedIndex,
           children: <Widget>[
             BreakingNewsPage(),
-            SavedNewsPage(allDestinations[_selectedIndex]),
+            SavedNewsPage(),
             SearchNewsPage(),
           ],
         ),
