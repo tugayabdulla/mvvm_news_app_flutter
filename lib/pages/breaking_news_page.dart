@@ -19,7 +19,9 @@ class _BreakingNewsPageState extends State<BreakingNewsPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NewsViewModel>(builder: (context, vm, child) {
-      return NewsList(newsList: vm.breakingNews, backgroundColor:allDestinations[0].color.shade100);
+      return NewsList(
+          newsList: vm.breakingNews,
+          backgroundColor: allDestinations[0].color.shade100);
     });
   }
 }

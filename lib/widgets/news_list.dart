@@ -5,7 +5,7 @@ import 'package:news_app_mvvm/pages/article.dart';
 import 'package:news_app_mvvm/view%20models/news_db_view_model.dart';
 import 'package:provider/provider.dart';
 
-class NewsList extends StatefulWidget {
+class NewsList extends StatelessWidget {
   NewsList({this.newsList, this.dismissible = false, this.backgroundColor});
 
   final Color backgroundColor;
@@ -13,23 +13,18 @@ class NewsList extends StatefulWidget {
   final dismissible;
 
   @override
-  _NewsListState createState() => _NewsListState();
-}
-
-class _NewsListState extends State<NewsList> {
-  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: widget.newsList.length,
+        itemCount: newsList.length,
         itemBuilder: (context, index) {
-          var news = widget.newsList[index];
-          return widget.dismissible
+          var news = newsList[index];
+          return dismissible
               ? Dismissible(
                   background: Container(
                     color: Colors.red,
                   ),
                   key: Key(news.url),
-                  onDismissed: (direction) async {
+                  onDismissed: (_) async {
                     Scaffold.of(context).showSnackBar(SnackBar(
                       content: Text('Article Deleted'),
                       action: SnackBarAction(
@@ -38,19 +33,14 @@ class _NewsListState extends State<NewsList> {
                           await Provider.of<NewsDBViewModel>(context,
                                   listen: false)
                               .insertNews(news);
-                          setState(() {});
                         },
                       ),
                     ));
-                    // setState(() {
-                    widget.newsList.removeAt(index);
-                    // });
                     await Provider.of<NewsDBViewModel>(context, listen: false)
                         .deleteNews(news);
                   },
-                  child: NewsPreview(
-                      widget.newsList[index], widget.backgroundColor))
-              : NewsPreview(widget.newsList[index], widget.backgroundColor);
+                  child: NewsPreview(newsList[index], backgroundColor))
+              : NewsPreview(newsList[index], backgroundColor);
         });
   }
 }
@@ -86,8 +76,9 @@ class NewsPreview extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Image.network(news.urlToImage ??
-                          "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg",
+                      Image.network(
+                        news.urlToImage ??
+                            "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg",
                       ),
                       Text(news.publishedAt),
                     ],

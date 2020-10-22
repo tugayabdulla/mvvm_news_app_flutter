@@ -12,20 +12,15 @@ class NewsApp extends StatefulWidget {
 class _NewsAppState extends State<NewsApp> {
   int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    // Provider.of<NewsViewModel>(context, listen: false).getBreakingNews();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("News App"),
         backgroundColor: allDestinations[_selectedIndex].color,
       ),
       body: SafeArea(
-        top: false,
         child: IndexedStack(
           index: _selectedIndex,
           children: <Widget>[

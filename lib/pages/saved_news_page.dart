@@ -12,19 +12,17 @@ class SavedNewsPage extends StatefulWidget {
 class _SavedNewsPageState extends State<SavedNewsPage> {
   @override
   void initState() {
-    Provider.of<NewsDBViewModel>(context,listen: false).getSavedNews();
+    Provider.of<NewsDBViewModel>(context, listen: false).getSavedNews();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<NewsDBViewModel>(builder: (context, vm, child) {
-
       return NewsList(
-        newsList: vm.newsList,
-        dismissible: true,
-          backgroundColor:allDestinations[1].color.shade100
-      );
+          newsList: vm.newsList,
+          dismissible: true,
+          backgroundColor: allDestinations[1].color.shade100);
     });
   }
 }
