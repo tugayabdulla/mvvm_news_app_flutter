@@ -21,7 +21,9 @@ class _NewsAppState extends State<NewsApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: allDestinations[_selectedIndex].color,
+      ),
       body: SafeArea(
         top: false,
         child: IndexedStack(

@@ -8,7 +8,6 @@ class ArticlePage extends StatelessWidget {
   ArticlePage(this.news);
 
   final News news;
-  final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,15 @@ class ArticlePage extends StatelessWidget {
 
               await Provider.of<NewsDBViewModel>(context, listen: false)
                   .insertNews(news);
-              Scaffold.of(context).showSnackBar(snackBar);
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('Article Saved'),
+                action: SnackBarAction(
+                  label: "UNDO",
+                  onPressed: (){
+                    Provider.of<NewsDBViewModel>(context, listen: false).deleteNews(news);
+                  },
+                ),
+              ));
               print("onPressed ends");
             },
           );

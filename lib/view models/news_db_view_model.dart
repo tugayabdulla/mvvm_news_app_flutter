@@ -6,20 +6,23 @@ class NewsDBViewModel extends ChangeNotifier {
   var db = AppSqliteDb();
   List<News> newsList = [];
 
-  void getSavedNews() async {
+  Future getSavedNews() async {
     newsList = await db.getNews();
     notifyListeners();
   }
 
   Future insertNews(News news) async{
+    news.setInsertTime();
+
     await db.insertNews(news);
-    getSavedNews();
+    await getSavedNews();
+
     notifyListeners();
   }
 
   Future deleteNews(News news) async{
     await db.deleteNews(news);
-    getSavedNews();
+    newsList.remove(news);
     notifyListeners();
   }
 }

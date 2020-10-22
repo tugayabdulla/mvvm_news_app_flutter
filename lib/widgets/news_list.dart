@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:news_app_mvvm/models/News.dart';
 import 'package:news_app_mvvm/pages/article.dart';
 import 'package:news_app_mvvm/view%20models/news_db_view_model.dart';
 import 'package:provider/provider.dart';
 
 class NewsList extends StatefulWidget {
-  NewsList({this.newsList, this.dismissible = false});
+  NewsList({this.newsList, this.dismissible = false, this.backgroundColor});
 
+  final Color backgroundColor;
   final List<News> newsList;
   final dismissible;
 
@@ -20,29 +22,43 @@ class _NewsListState extends State<NewsList> {
     return ListView.builder(
         itemCount: widget.newsList.length,
         itemBuilder: (context, index) {
+          var news = widget.newsList[index];
           return widget.dismissible
               ? Dismissible(
                   background: Container(
                     color: Colors.red,
-
                   ),
-                  key: Key(widget.newsList[index].url),
-                  onDismissed: (direction) {
-                    Provider.of<NewsDBViewModel>(context, listen: false)
-                        .deleteNews(widget.newsList[index]);
-                    setState(() {
-                      widget.newsList.removeAt(index);
-                    });
+                  key: Key(news.url),
+                  onDismissed: (direction) async {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text('Article Deleted'),
+                      action: SnackBarAction(
+                        label: "UNDO",
+                        onPressed: () async {
+                          await Provider.of<NewsDBViewModel>(context,
+                                  listen: false)
+                              .insertNews(news);
+                          setState(() {});
+                        },
+                      ),
+                    ));
+                    // setState(() {
+                    widget.newsList.removeAt(index);
+                    // });
+                    await Provider.of<NewsDBViewModel>(context, listen: false)
+                        .deleteNews(news);
                   },
-                  child: NewsPreview(widget.newsList[index]))
-              : NewsPreview(widget.newsList[index]);
+                  child: NewsPreview(
+                      widget.newsList[index], widget.backgroundColor))
+              : NewsPreview(widget.newsList[index], widget.backgroundColor);
         });
   }
 }
 
 class NewsPreview extends StatelessWidget {
-  NewsPreview(this.news);
+  NewsPreview(this.news, this.color);
 
+  final Color color;
   final News news;
 
   @override
@@ -56,35 +72,53 @@ class NewsPreview extends StatelessWidget {
           ),
         );
       },
-      child: Card(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Image.network(news.urlToImage ??
-                        "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg"),
-                    Text(news.publishedAt),
-                  ],
+      child: Container(
+        constraints: BoxConstraints(minHeight: 150.0, maxHeight: 180.0),
+        child: Card(
+          color: color,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Image.network(news.urlToImage ??
+                          "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg",
+                      ),
+                      Text(news.publishedAt),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(news.title ?? "Placeholder Title"),
-                    Text(news.description ?? "Placeholder description"),
-                  ],
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        news.title ?? "Placeholder Title",
+                        style: TextStyle(
+                            fontSize: 15.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                      Text(
+                        news.description ?? "Placeholder description",
+                        maxLines: 5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

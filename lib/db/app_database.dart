@@ -11,13 +11,12 @@ class AppSqliteDb {
         join(await getDatabasesPath(), sqliteDbName),
         version: dbVersion,
         onCreate: (Database db, int version) async {
-
-
           db.execute('''CREATE TABLE IF NOT EXISTS ${News.TABLE_NAME} (
+          insert_time ,
          author TEXT,
          title TEXT,
          description TEXT,
-         url TEXT PRIMARY KEY,
+         url TEXT  PRIMARY KEY,
          urlToImage TEXT,
          publishedAt TEXT,            
          content TEXT)
@@ -33,7 +32,7 @@ class AppSqliteDb {
 
   Future<List<News>> getNews() async {
     final Database db = await getDb();
-    final List<Map<String, dynamic>> map = await db.query(News.TABLE_NAME);
+    final List<Map<String, dynamic>> map = await db.query(News.TABLE_NAME,orderBy: 'insert_time ASC');
     return List.generate(map.length, (i) => News.newsFromJson(map[i]));
   }
 
