@@ -20,9 +20,7 @@ class _BreakingNewsPageState extends State<BreakingNewsPage> {
   Widget build(BuildContext context) {
     return Consumer<NewsViewModel>(builder: (context, vm, child) {
       return vm.breakingNews.length != 0? RefreshIndicator(
-        onRefresh:(){
-          return vm.getBreakingNews();
-        },
+        onRefresh: vm.getBreakingNews,
         child: NewsList(
             newsList: vm.breakingNews,
             backgroundColor: allDestinations[0].color.shade100),
@@ -31,4 +29,3 @@ class _BreakingNewsPageState extends State<BreakingNewsPage> {
   }
 
 }
-//Center(child: CircularProgressIndicator()

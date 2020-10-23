@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:news_app_mvvm/models/News.dart';
 import 'package:news_app_mvvm/services/news_service.dart';
-import 'package:news_app_mvvm/utils/date_time.dart';
+import 'package:news_app_mvvm/utils/functions.dart';
 
 class NewsViewModel extends ChangeNotifier {
   List<News> _searchNews = [];

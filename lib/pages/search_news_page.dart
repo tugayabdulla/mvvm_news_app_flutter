@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:news_app_mvvm/utils/date_time.dart';
 import 'package:news_app_mvvm/utils/destinations.dart';
+import 'package:news_app_mvvm/utils/functions.dart';
 import 'package:news_app_mvvm/view%20models/news_view_model.dart';
 import 'package:news_app_mvvm/widgets/news_list.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +47,7 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
                 _selectDate(context, false);
               },
               child: Text(
-               formatDateForUI(selectedEndDate),
+                formatDateForUI(selectedEndDate),
               ))
         ]),
         SizedBox(

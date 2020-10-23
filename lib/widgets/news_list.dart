@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:news_app_mvvm/models/News.dart';
 import 'package:news_app_mvvm/pages/article.dart';
+import 'package:news_app_mvvm/utils/functions.dart';
 import 'package:news_app_mvvm/view%20models/news_db_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,9 +12,9 @@ class NewsList extends StatelessWidget {
   final Color backgroundColor;
   final List<News> newsList;
   final dismissible;
-
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<NewsDBViewModel>(context, listen: false);
     return ListView.builder(
         itemCount: newsList.length,
         itemBuilder: (context, index) {
@@ -30,14 +31,11 @@ class NewsList extends StatelessWidget {
                       action: SnackBarAction(
                         label: "UNDO",
                         onPressed: () async {
-                          await Provider.of<NewsDBViewModel>(context,
-                                  listen: false)
-                              .insertNews(news);
+                          await vm.insertNews(news);
                         },
                       ),
                     ));
-                    await Provider.of<NewsDBViewModel>(context, listen: false)
-                        .deleteNews(news);
+                    await vm.deleteNews(news);
                   },
                   child: NewsPreview(newsList[index], backgroundColor))
               : NewsPreview(newsList[index], backgroundColor);
@@ -80,7 +78,7 @@ class NewsPreview extends StatelessWidget {
                         news.urlToImage ??
                             "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg",
                       ),
-                      Text(news.publishedAt),
+                      Text(formatDateForUI(DateTime.parse(news.publishedAt))),
                     ],
                   ),
                 ),

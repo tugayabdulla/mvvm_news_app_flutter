@@ -13,19 +13,21 @@ class ArticlePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final vm = Provider.of<NewsDBViewModel>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Article"),
+        title: Text('Article'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.open_in_browser),
             onPressed: _launchURL,
-            tooltip: "Open in Browser",
+            tooltip: 'Open in Browser',
           ),
           IconButton(
             icon: Icon(Icons.share),
             onPressed: _share,
-            tooltip: "Share...",
+            tooltip: 'Share...',
           )
         ],
       ),
@@ -37,15 +39,13 @@ class ArticlePage extends StatelessWidget {
           return FloatingActionButton(
             child: Icon(Icons.favorite),
             onPressed: () async {
-              await Provider.of<NewsDBViewModel>(context, listen: false)
-                  .insertNews(news);
+              await vm.insertNews(news);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Article Saved'),
                 action: SnackBarAction(
-                  label: "UNDO",
+                  label: 'UNDO',
                   onPressed: () async {
-                    await Provider.of<NewsDBViewModel>(context, listen: false)
-                        .deleteNews(news);
+                    await vm.deleteNews(news);
                   },
                 ),
               ));
@@ -57,8 +57,8 @@ class ArticlePage extends StatelessWidget {
   }
 
   _launchURL() async {
-    var url = news.url;
-    print("in");
+    final url = news.url;
+    print('in');
     if (await canLaunch(url)) {
       await launch(url);
     } else {
