@@ -1,21 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:news_app_mvvm/models/News.dart';
 import 'package:news_app_mvvm/services/news_service.dart';
+import 'package:news_app_mvvm/utils/date_time.dart';
 
 class NewsViewModel extends ChangeNotifier {
-  List<News> searchNews = [];
-  List<News> breakingNews = [];
+  List<News> _searchNews = [];
+  List<News> _breakingNews = [];
 
-  final NewsService newsService = NewsService();
+  final NewsService _newsService = NewsService();
 
-  void getBreakingNews() async {
-    breakingNews = await newsService.getBreakingNews();
+  List<News> get searchNews => _searchNews;
+
+  List<News> get breakingNews => _breakingNews;
+  Future<void> getBreakingNews() async {
+    _breakingNews = await _newsService.getBreakingNews();
     notifyListeners();
   }
 
-  void getSearchNews(String keyword) async{
-    searchNews = await newsService.getSearchNews(keyword);
-    print("hunga hunga");
+  Future<void> getSearchNews(
+      String keyword, DateTime start, DateTime end) async {
+    _searchNews = await _newsService.getSearchNews(
+        keyword, formatDateForService(start), formatDateForService(end));
     notifyListeners();
   }
+
 }

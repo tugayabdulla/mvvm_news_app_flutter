@@ -12,7 +12,6 @@ class NewsApp extends StatefulWidget {
 class _NewsAppState extends State<NewsApp> {
   int _selectedIndex = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +31,6 @@ class _NewsAppState extends State<NewsApp> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
-        // backgroundColor: allDestinations[_selectedIndex].color,
         currentIndex: _selectedIndex,
         onTap: (int index) {
           setState(() {

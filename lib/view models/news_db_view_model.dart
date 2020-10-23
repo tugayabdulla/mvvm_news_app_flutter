@@ -3,26 +3,28 @@ import 'package:news_app_mvvm/db/app_database.dart';
 import 'package:news_app_mvvm/models/News.dart';
 
 class NewsDBViewModel extends ChangeNotifier {
-  var db = AppSqliteDb();
-  List<News> newsList = [];
+  var _db = AppSqliteDb();
+  List<News> _newsList = [];
 
   Future getSavedNews() async {
-    newsList = await db.getNews();
+    _newsList = await _db.getNews();
     notifyListeners();
   }
+
+  List<News> get newsList => _newsList;
 
   Future insertNews(News news) async{
     news.setInsertTime();
 
-    await db.insertNews(news);
+    await _db.insertNews(news);
     await getSavedNews();
 
     notifyListeners();
   }
 
   Future deleteNews(News news) async{
-    await db.deleteNews(news);
-    newsList.remove(news);
+    await _db.deleteNews(news);
+    _newsList.remove(news);
     notifyListeners();
   }
 }

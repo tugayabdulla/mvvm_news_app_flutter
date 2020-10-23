@@ -12,7 +12,6 @@ void main() {
         ChangeNotifierProvider(create: (_) => NewsDBViewModel())
       ],
       child: MaterialApp(
-        title: "News",
         home: NewsApp(),
       ),
     ),
