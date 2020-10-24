@@ -38,6 +38,6 @@ class AppSqliteDb {
 
   Future deleteNews(News news) async {
     final Database db = await getDb();
-    db.delete(News.TABLE_NAME, where: 'url = ?', whereArgs: [news.url]);
+    await db.delete(News.TABLE_NAME, where: 'url = ?', whereArgs: [news.url]);
   }
 }

@@ -16,6 +16,7 @@ class NewsService {
       String keyword, String startTime, String endTime) async {
     final url =
         "http://newsapi.org/v2/everything?q=$keyword&from=$startTime&to=$endTime&apiKey=$API_KEY";
+    print('after url');
     return await _getNews(url);
   }
 
@@ -32,6 +33,7 @@ class NewsService {
     } else {
       throw Exception("Unable to perform request!");
     }
+    print(newsList.length);
     return newsList;
   }
 }

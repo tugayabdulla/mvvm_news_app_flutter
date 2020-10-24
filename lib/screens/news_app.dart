@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_mvvm/pages/breaking_news_page.dart';
-import 'package:news_app_mvvm/pages/saved_news_page.dart';
-import 'package:news_app_mvvm/pages/search_news_page.dart';
+import 'file:///C:/Users/abdul/AndroidStudioProjects/news_app_mvvm/lib/screens/breaking_news_page.dart';
+import 'file:///C:/Users/abdul/AndroidStudioProjects/news_app_mvvm/lib/screens/saved_news_page.dart';
+import 'file:///C:/Users/abdul/AndroidStudioProjects/news_app_mvvm/lib/screens/search_news_page.dart';
 import 'package:news_app_mvvm/utils/destinations.dart';
 
 class NewsApp extends StatefulWidget {

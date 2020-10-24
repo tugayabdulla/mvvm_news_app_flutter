@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:news_app_mvvm/models/News.dart';
-import 'package:news_app_mvvm/pages/article.dart';
+import 'file:///C:/Users/abdul/AndroidStudioProjects/news_app_mvvm/lib/screens/article.dart';
 import 'package:news_app_mvvm/utils/functions.dart';
 import 'package:news_app_mvvm/view%20models/news_db_view_model.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +11,8 @@ class NewsList extends StatelessWidget {
 
   final Color backgroundColor;
   final List<News> newsList;
-  final dismissible;
+  final bool dismissible;
+
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<NewsDBViewModel>(context, listen: false);
@@ -74,6 +75,7 @@ class NewsPreview extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
+
                       Image.network(
                         news.urlToImage ??
                             "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg",

@@ -18,12 +18,15 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
   DateTime selectedStartDate;
   DateTime selectedEndDate;
   TextEditingController _controller = TextEditingController();
+  var vm;
+
 
   @override
   void initState() {
     now = DateTime.now();
     selectedStartDate = now.subtract(oneMonth);
     selectedEndDate = now;
+    vm = Provider.of<NewsViewModel>(context, listen: false);
     super.initState();
   }
 
@@ -48,7 +51,7 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
               },
               child: Text(
                 formatDateForUI(selectedEndDate),
-              ))
+              ),)
         ]),
         SizedBox(
           height: 2.0,
@@ -59,16 +62,17 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width - 70.0,
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: "Search...",
-                      enabledBorder: OutlineInputBorder()),
+                child:TextField(
                   controller: _controller,
-                  onSubmitted: (keyword) {
-                    Provider.of<NewsViewModel>(context, listen: false)
-                        .getSearchNews(
-                            keyword, selectedStartDate, selectedEndDate);
-                  },
+                  decoration:  InputDecoration(
+                    labelText: "Enter keyword",
+                    border:  OutlineInputBorder(
+                      borderRadius:  BorderRadius.circular(25.0),
+                    ),
+                  ),
+
+                  keyboardType: TextInputType.text,
+
                 ),
               ),
               IconButton(
@@ -76,9 +80,8 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
                 focusColor: Colors.red,
                 onPressed: () {
                   if (_controller.text.isNotEmpty) {
-                    Provider.of<NewsViewModel>(context, listen: false)
-                        .getSearchNews(_controller.text, selectedStartDate,
-                            selectedEndDate);
+                    vm.getSearchNews(
+                        _controller.text, selectedStartDate, selectedEndDate);
                   }
                 },
               ),
@@ -87,7 +90,8 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
         ),
         Expanded(
           child: Consumer<NewsViewModel>(builder: (context, vm, child) {
-            return NewsList(
+
+            return vm.loadingSearch? Center(child: CircularProgressIndicator(),) :NewsList(
                 newsList: vm.searchNews,
                 backgroundColor: allDestinations[2].color.shade100);
           }),
@@ -150,8 +154,8 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
                   });
               },
               initialDateTime: selectedDate,
-              minimumYear: 2000,
-              maximumYear: 2025,
+              minimumDate: now.subtract(oneMonth),
+              maximumDate: now,
             ),
           );
         });
